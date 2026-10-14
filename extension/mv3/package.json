@@ -1,0 +1,12 @@
+{
+  "name": "mv3",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "picard-js": "^0.3.0-pre.35"
+  }
+}

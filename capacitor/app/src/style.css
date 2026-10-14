@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  padding: env(safe-area-inset-top) 1rem env(safe-area-inset-bottom);
+  font-family: system-ui, sans-serif;
+}
+
+.app-info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  word-break: break-all;
+}
+
+.app-info dt {
+  font-weight: bold;
+}

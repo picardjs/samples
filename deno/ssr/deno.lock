@@ -1,0 +1,16 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:picard-js@~0.3.0-pre.35": "0.3.0-pre.35"
+  },
+  "npm": {
+    "picard-js@0.3.0-pre.35": {
+      "integrity": "sha512-jFrLUWysLE/puP1q7gR/E7T0mC//dKEsh61I4+K41vOyrTnP1/94jTuFQTyWRS1gZH6qtoJrtXegNM6wh+WoVQ=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:picard-js@~0.3.0-pre.35"
+    ]
+  }
+}

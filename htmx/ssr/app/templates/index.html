@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picard.js with htmx</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+  <pi-part name="style"></pi-part>
+</head>
+<body>
+  <div class="jumbotron text-center">
+    <h1>Picard.js with htmx</h1>
+    <p>FastAPI renders the pages and fragments, Picard.js renders the micro frontends into them.</p>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h3>Static Column 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      </div>
+      <div class="col-sm-4">
+        <pi-component name="column" source="mf-simple-html" server="none"></pi-component>
+      </div>
+      <div class="col-sm-4">
+        <pi-component name="column" source="nfsimplehtml" server="none"></pi-component>
+      </div>
+    </div>
+
+    <nav class="nav nav-pills justify-content-center my-3">
+      {% for name in ["counter", "more"] %}
+      <button type="button" class="nav-link btn btn-link" hx-get="/panels/{{ name }}" hx-target="#panel">{{ name | capitalize }}</button>
+      {% endfor %}
+    </nav>
+
+    <div id="panel">
+      {% include "panel.html" %}
+    </div>
+  </div>
+
+  <pi-part name="script"></pi-part>
+</body>
+</html>

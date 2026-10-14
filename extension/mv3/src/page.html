@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Picard.js Sample</title>
+  <link rel="stylesheet" href="page.css">
+  <!-- extension pages forbid inline scripts - the feed is given via an attribute -->
+  <script src="picard/picard.js" feed="feed.json"></script>
+</head>
+<body>
+  <h1>Picard.js in a browser extension</h1>
+  <section>
+    <!-- Module Federation containers cannot be bundled (see README) -->
+    <pi-component name="column" source="mf-simple-html" fallback-template-id="not-bundled"></pi-component>
+    <pi-component name="column" source="nfsimplehtml"></pi-component>
+    <pi-component name="counter" source="pi-simple-html"></pi-component>
+  </section>
+  <template id="not-bundled">
+    <p>This micro frontend is not part of the extension.</p>
+  </template>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "schema": "https://mfewg.org/schema/v1-pre.json",
+  "microFrontends": {
+    "app-info": [
+      {
+        "url": "./mfs/app-info/index.js",
+        "metadata": { "version": "1.0.0" },
+        "extras": { "pilet": { "spec": "v2" }, "dependencies": {} }
+      }
+    ]
+  }
+}

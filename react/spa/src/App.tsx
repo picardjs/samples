@@ -3,6 +3,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 declare module "react/jsx-runtime" {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
       ["pi-component"]: { name: string; source: string };

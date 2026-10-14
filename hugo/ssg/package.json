@@ -1,0 +1,9 @@
+{
+  "name": "ssg",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "hugo --minify=false && node ../../shared/picard-decorator/cli.mjs build public",
+    "preview": "npx http-server public -p 1313"
+  }
+}

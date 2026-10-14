@@ -1,0 +1,8 @@
+baseURL = 'http://localhost:1313/'
+locale = 'en-us'
+title = 'Picard.js with Hugo'
+disableKinds = ['taxonomy', 'term', 'rss', 'sitemap']
+
+[markup.goldmark.renderer]
+  # allows the pi-component elements in the Markdown content
+  unsafe = true

@@ -1,0 +1,16 @@
+{
+  "name": "picard-decorator",
+  "version": "1.0.0",
+  "description": "Decorates HTML from any backend or static site generator with the micro frontends rendered by Picard.js.",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "picard-decorator": "cli.mjs"
+  },
+  "scripts": {
+    "start": "node cli.mjs serve"
+  },
+  "dependencies": {
+    "picard-js": "^0.3.0-pre.35"
+  }
+}

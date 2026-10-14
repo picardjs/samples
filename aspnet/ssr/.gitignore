@@ -1,0 +1,6 @@
+bin/
+obj/
+node_modules/
+
+# the client libraries of the template are part of the sample
+!App/wwwroot/lib/**/dist

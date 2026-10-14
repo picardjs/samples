@@ -1,54 +1,62 @@
-# React + TypeScript + Vite
+# Picard.js with React (SPA)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React 19 single-page application created with Vite. It shows micro frontends inside React components.
 
-Currently, two official plugins are available:
+## What Picard.js Does Here
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Picard.js runs in the browser. It loads the `picard-demos` feed and renders the components of three micro frontends into the `pi-component` elements that React puts on the page. The three use different formats: Module Federation (`mf-simple-html`), Native Federation (`nfsimplehtml`), and a pilet (`pi-simple-html`). React owns the `pi-component` elements and Picard.js owns their content, so React never re-renders a micro frontend by accident.
 
-## Expanding the ESLint configuration
+## How It Is Integrated
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**1. Initialize Picard.js once.** [`src/main.tsx`](./src/main.tsx) starts Picard.js before rendering the React tree:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```tsx
+import { initializePicard } from "picard-js/client";
+
+initializePicard({
+  feed: "https://feed.piral.cloud/api/v1/microfrontends/picard-demos",
+});
+
+createRoot(document.getElementById("root")!).render(<App />);
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**2. Teach JSX about the element.** React accepts any custom element, but TypeScript needs to know its props. [`src/App.tsx`](./src/App.tsx) adds `pi-component` to the JSX intrinsic elements:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```tsx
+declare module "react/jsx-runtime" {
+  namespace JSX {
+    interface IntrinsicElements {
+      ["pi-component"]: { name: string; source: string };
+    }
+  }
+}
 ```
+
+**3. Use it.** Again in [`src/App.tsx`](./src/App.tsx):
+
+```tsx
+<pi-component name="column" source="mf-simple-html"></pi-component>
+<pi-component name="column" source="nfsimplehtml"></pi-component>
+<pi-component name="counter" source="pi-simple-html"></pi-component>
+```
+
+## Good to Know
+
+- When React unmounts a `pi-component` element (e.g., on a route change), Picard.js unmounts the micro frontend's component too.
+- To pass data, set the `data` attribute to a JSON string (e.g., `data={JSON.stringify({ start: 5 })}`) and add `data?: string` to the typing. Picard.js updates the component when it changes.
+- React 19 sets properties on custom elements where they exist. Picard.js accepts both: an object and a JSON string for `data`.
+
+## Running
+
+```sh
+npm install
+npm run dev
+```
+
+Then open `http://localhost:5173`.
+
+See [Next.js](../../next/ssr/) and [React Router](../../react-router/ssr/) for server-rendered React, or [React Native](../../react-native/app/) for mobile.
+
+---
+
+**Picard.js** · [Website](https://picard.js.org) · [Repository](https://github.com/picardjs/picard) · [All samples](../../README.md)

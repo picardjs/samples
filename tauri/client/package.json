@@ -12,7 +12,7 @@
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
-    "picard-js": "^0.3.0-pre.23"
+    "picard-js": "^0.3.0-pre.35"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

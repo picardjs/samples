@@ -1,0 +1,13 @@
+{
+  "name": "ssr",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "picard-js": "^0.3.0-pre.35"
+  }
+}

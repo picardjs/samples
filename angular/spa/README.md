@@ -1,59 +1,62 @@
-# Spa
+# Picard.js with Angular (SPA)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+An Angular 19 single-page application created with the Angular CLI. It shows micro frontends in a component template, much like any other element.
 
-## Development server
+## What Picard.js Does Here
 
-To start a local development server, run:
+Everything happens in the browser. Picard.js fetches the `picard-demos` feed, loads the micro frontends when their `pi-component` elements show up in the DOM, and mounts their components. Angular renders the `pi-component` elements but never looks inside them, so the two don't get in each other's way. The page uses three micro frontends with three different formats: a Module Federation container (`mf-simple-html`), a Native Federation module (`nfsimplehtml`), and a pilet (`pi-simple-html`).
 
-```bash
-ng serve
+## How It Is Integrated
+
+**1. Start Picard.js next to Angular.** [`src/main.ts`](./src/main.ts) bootstraps the application and initializes Picard.js at the same time. Neither waits for the other: the `pi-component` elements upgrade as soon as Picard.js has defined them.
+
+```ts
+import { initializePicard } from 'picard-js/client';
+
+Promise.all([
+  bootstrapApplication(AppComponent, appConfig),
+  initializePicard({
+    feed: 'https://feed.piral.cloud/api/v1/microfrontends/picard-demos',
+  }),
+]).catch((err) => console.error(err));
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**2. Allow custom elements in the template.** Angular rejects unknown elements, so [`src/app/app.component.ts`](./src/app/app.component.ts) declares `CUSTOM_ELEMENTS_SCHEMA`:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```ts
+@Component({
+  selector: 'app-root',
+  // ...
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class AppComponent {}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**3. Place the components.** [`src/app/app.component.html`](./src/app/app.component.html) uses the elements like any other markup:
 
-```bash
-ng generate --help
+```html
+<pi-component name="column" source="mf-simple-html"></pi-component>
+<pi-component name="column" source="nfsimplehtml"></pi-component>
+<pi-component name="counter" source="pi-simple-html"></pi-component>
 ```
 
-## Building
+## Good to Know
 
-To build the project run:
+- `CUSTOM_ELEMENTS_SCHEMA` applies to the whole component. If you prefer stricter checks, wrap the `pi-component` elements in a small dedicated component that has the schema.
+- Data for a component goes into the `data` attribute as JSON, e.g., `[attr.data]="json"`. Picard.js passes it to the component and updates it when the attribute changes.
+- Angular's change detection doesn't need to know about the micro frontends. They manage their own DOM inside the `pi-component` element.
 
-```bash
-ng build
+## Running
+
+```sh
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Then open `http://localhost:4200`. `npm run build` creates the production build in `dist/`.
 
-## Running unit tests
+See [Angular SSR](../ssr/) for the server-rendered variant.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+---
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Picard.js** · [Website](https://picard.js.org) · [Repository](https://github.com/picardjs/picard) · [All samples](../../README.md)

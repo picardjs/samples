@@ -5,6 +5,7 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import { getIslandsFile, initializePicard } from 'picard-js/node';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -13,6 +14,31 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+/**
+ * Picard.js renders the micro frontends into the HTML produced by Angular.
+ * The islands script resumes them in the browser.
+ */
+const picard = initializePicard({
+  feed: 'https://feed.piral.cloud/api/v1/microfrontends/picard-demos',
+  interactive: true,
+  // the islands script is served from this process (see below)
+  scriptUrl: '/picard/picard.js',
+});
+
+/**
+ * Decorates the HTML response of Angular with the server-rendered micro frontends.
+ */
+async function decorate(response: Response) {
+  if (!response.headers.get('content-type')?.includes('text/html')) {
+    return response;
+  }
+
+  const html = await picard.decorate(await response.text());
+  const headers = new Headers(response.headers);
+  headers.delete('content-length');
+  return new Response(html, { status: response.status, statusText: response.statusText, headers });
+}
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -25,6 +51,19 @@ const angularApp = new AngularNodeAppEngine();
  * });
  * ```
  */
+
+/**
+ * Serve the files of the Picard.js islands script
+ */
+app.get('/picard/:file', (req, res) => {
+  const content = getIslandsFile(req.params.file);
+
+  if (content === undefined) {
+    res.sendStatus(404);
+  } else {
+    res.type('text/javascript').send(content);
+  }
+});
 
 /**
  * Serve static files from /browser
@@ -43,8 +82,8 @@ app.use(
 app.use('/**', (req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
+    .then(async (response) =>
+      response ? writeResponseToNodeResponse(await decorate(response), res) : next(),
     )
     .catch(next);
 });

@@ -1,0 +1,10 @@
+{
+  "name": "pi-ssr-html",
+  "version": "1.0.2",
+  "description": "A framework-less micro frontend that can be rendered on the server and hydrated on the client.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "license": "MIT"
+}

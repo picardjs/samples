@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ site.Title }}</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <pi-part name="style"></pi-part>
+</head>
+<body>
+  <nav class="nav justify-content-center my-3">
+    {{ range site.Home.Pages.ByWeight | append site.Home }}
+    <a class="nav-link" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+    {{ end }}
+  </nav>
+  <div class="container">
+    {{ block "main" . }}{{ end }}
+  </div>
+  <pi-part name="script"></pi-part>
+</body>
+</html>

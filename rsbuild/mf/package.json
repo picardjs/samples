@@ -1,0 +1,20 @@
+{
+  "name": "mf",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "rsbuild",
+    "preview": "rsbuild preview"
+  },
+  "devDependencies": {
+    "@module-federation/rsbuild-plugin": "^2.9.2",
+    "@rsbuild/core": "^2.2.13",
+    "@types/node": "^24.19.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "picard-js": "^0.3.0-pre.35"
+  }
+}

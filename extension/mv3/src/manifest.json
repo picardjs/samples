@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Picard.js Sample",
+  "version": "1.0.0",
+  "description": "Shows micro frontends rendered by Picard.js in an extension page.",
+  "action": {
+    "default_title": "Picard.js Sample"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

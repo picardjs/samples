@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "picard-js": "^0.3.0-pre.23",
+    "picard-js": "^0.3.0-pre.35",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

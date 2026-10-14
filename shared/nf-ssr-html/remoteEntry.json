@@ -1,0 +1,10 @@
+{
+  "name": "nf-ssr-html",
+  "shared": [],
+  "exposes": [
+    {
+      "key": "./ssr-likes",
+      "outFileName": "ssr-likes.js"
+    }
+  ]
+}

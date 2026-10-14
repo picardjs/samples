@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} - Picard.js with Turbo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.23/dist/turbo.es2017-esm.js"></script>
+  <pi-part name="style"></pi-part>
+</head>
+<body>
+  <nav class="nav justify-content-center my-3">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/more">More</a>
+    <a class="nav-link" href="/about">About</a>
+  </nav>
+  <div class="container">
+    {{content}}
+  </div>
+  <pi-part name="script"></pi-part>
+</body>
+</html>
