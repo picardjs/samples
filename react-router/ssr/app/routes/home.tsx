@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { PicardHtml } from "../components/picard";
+import { PicardClientComponent, PicardHtml } from "../components/picard";
 import { picard } from "../picard.server";
 
 export function meta({}: Route.MetaArgs) {
@@ -26,14 +26,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
         </div>
         <div className="col-sm-4">
-          <pi-component name="column" source="mf-simple-html" server="none"></pi-component>
+          <PicardClientComponent name="column" source="mf-simple-html" />
         </div>
         <div className="col-sm-4">
-          <pi-component name="column" source="nfsimplehtml" server="none"></pi-component>
+          <PicardClientComponent name="column" source="nfsimplehtml" />
         </div>
       </div>
       <div className="d-flex p-2 justify-content-center">
-        <pi-component name="counter" source="pi-simple-html" server="none"></pi-component>
+        <PicardClientComponent name="counter" source="pi-simple-html" />
       </div>
       <div className="d-flex p-2 justify-content-center">
         {/* rendered on the server and hydrated in the browser */}

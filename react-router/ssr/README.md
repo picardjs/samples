@@ -71,16 +71,17 @@ The style part goes at the start of the body, where `style` and `link` elements 
 
 **5. Serve the islands script.** The resource route [`app/routes/picard.$file.ts`](./app/routes/picard.$file.ts) (registered in [`app/routes.ts`](./app/routes.ts)) returns `getIslandsFile(params.file)`.
 
-**6. Type the elements.** [`app/picard.d.ts`](./app/picard.d.ts) adds `pi-component`, `pi-slot`, and `pi-part` to React's JSX types, so client-only components can be written directly:
+**6. Client-only components.** The micro frontends that are only rendered in the browser (`server="none"`) don't need the server, but React still mustn't render the `pi-component` element itself. `PicardClientComponent` in [`app/components/picard.tsx`](./app/components/picard.tsx) inserts it as markup, too:
 
 ```tsx
-<pi-component name="counter" source="pi-simple-html" server="none"></pi-component>
+<PicardClientComponent name="counter" source="pi-simple-html" />
 ```
 
 ## Good to Know
 
 - **Streaming moves elements.** React puts streamed `Suspense` content into a hidden container and moves it into place later. Picard.js keeps a resumed micro frontend when its element is moved, so it's neither unmounted nor rendered twice.
 - **Client-side navigations** run the loaders on the server too, so the micro frontends of the next page are server-rendered and then hydrated in the browser. Try the *About* link.
+- **Never let React render a `pi-component`.** If a route rendered `<pi-component>` in JSX, the islands script could fill it before React hydrates (e.g., in development, where React loads later). React would then find unexpected children, fail the hydration, and render the whole page again. As markup inside `dangerouslySetInnerHTML`, the element belongs to Picard.js alone. `suppressHydrationWarning` on the wrapper silences React's development warning that the inner HTML has changed, which is expected once Picard.js has resumed the component.
 - **Bots don't get streaming.** The default `entry.server` waits for the whole page when the user agent is a bot (`isbot`), which includes `curl` and headless browsers. Use a regular browser to see the streaming.
 
 ## Running
