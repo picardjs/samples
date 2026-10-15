@@ -66,6 +66,7 @@ So integrating Picard.js on the server comes down to two questions: *where can I
 | [SolidStart](./solid/ssr/) | SolidStart 2 | Server | a middleware decorating the streamed page | Signals bound to the `data` of a micro frontend |
 | [Svelte SPA](./svelte/spa/) | Svelte 5, Vite | Client | `main.ts` | Custom elements without configuration |
 | [SvelteKit](./sveltekit/ssr/) | SvelteKit 3 | Server | `transformPageChunk` in `hooks.server.ts` | Decorating streamed chunks |
+| [TanStack Start](./tanstack/ssr/) | TanStack Start 1 (React) | Server (streaming) | server functions called by loaders, rendered with `Await` | Isomorphic loaders: micro frontends stay server-rendered on client-side navigations |
 | [Tauri](./tauri/client/) | Tauri 2, Vite | Client | `main.ts` | Picard.js in a native webview |
 | [Vitest](./vitest/testing/) | Vitest 5, jsdom, happy-dom | Tests | the page under test starts `picard-js/client` | Unit testing pages that use micro frontends |
 | [Vue SPA](./vue/spa/) | Vue 3, Vite | Client | `main.ts` and `isCustomElement` | Telling the Vue compiler about custom elements |
